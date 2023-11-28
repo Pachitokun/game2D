@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     
     void Start()
     {
-        velocidad = 2f;
+        velocidad = 3f;
         FuerzaSalto = 200f;
         miTF = gameObject.transform;
         movimiento = miTF.position.x;
