@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     
     void Start()
     {
-        velocidad = 3f;
+        velocidad = 4f;
         FuerzaSalto = 200f;
         miTF = gameObject.transform;
         movimiento = miTF.position.x;
@@ -39,6 +39,7 @@ public class Player : MonoBehaviour
         if(InteractX != 0)
         {
             miAnim.SetBool("Caminando", true);
+            
             if (InteractX < 0)
             {
                 miSR.flipX = true;
@@ -55,13 +56,27 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown("space") && enSuelo == true)
         {
+            miAnim.SetBool("Saltando", true);
             miRB.AddForce(Vector2.up * 500);
             enSuelo = false;
+        }
+        else
+        {
+            miAnim.SetBool("Saltando", false);
+            enSuelo = true;
+        }
+    //obtener la velocidad en Y del animador del jugador
+        miAnim.SetFloat("YVelocity", miRB.velocity.y);
+        else if (miRB.velocity.y < 0)
+        {
+            SetGravityScale(Data.gravityScale * Data.fallGravityMult);
+            miRB.velocity = new Vector2(miRB.velocity.x, Mathf.Max(miRB.velocity.y, -Data.maxFallSpeed));
         }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        miAnim.SetBool("Saltando", !enSuelo);
         Debug.Log(other.gameObject.tag);
         if(other.gameObject.tag == "Ground")
         {
@@ -69,11 +84,11 @@ public class Player : MonoBehaviour
            // miAnim.SetBool("Saltando", false);
             
         }
-        /*else if(collision.gameObject.tag == "Ground")
+        else if(other.gameObject.tag == "Ground")
         {
             enSuelo = false;
             //miAnim.SetBool("Saltando", true);
             
-        }*/
+        }
     }
 }
