@@ -66,12 +66,7 @@ public class Player : MonoBehaviour
             enSuelo = true;
         }
     //obtener la velocidad en Y del animador del jugador
-        miAnim.SetFloat("YVelocity", miRB.velocity.y);
-        else if (miRB.velocity.y < 0)
-        {
-            SetGravityScale(Data.gravityScale * Data.fallGravityMult);
-            miRB.velocity = new Vector2(miRB.velocity.x, Mathf.Max(miRB.velocity.y, -Data.maxFallSpeed));
-        }
+        
     }
 
     private void OnCollisionEnter2D(Collision2D other)
